@@ -36,7 +36,7 @@ body <- dashboardBody(
                      displayed after a slight delay due to calculation time. Navigate to
                      other tabs to see error predictions and exploratory plots."),
                   h6("If you don't have an appropriate pair of DICOM-RT files, but still wish
-                     to explore the app, you can download a sample pair of files ", a("here (Planned)", href="https://github.com/joelcarlson/MLCPredsShinyDash/raw/master/trainPlanned.dcm"), "and ", a("here (Delivered).", href="https://github.com/joelcarlson/MLCPredsShinyDash/raw/master/trainDelivered.dcm"))
+                     to explore the app, you can download a sample pair of files ", a("here (Planned)", href="https://github.com/joelcarlson/MLCPredictionsDashboard/raw/master/data/trainPlanned.dcm"), "and ", a("here (Delivered).", href="https://github.com/joelcarlson/MLCPredictionsDashboard/raw/master/data/trainDelivered.dcm"))
                 
               )
             ),
