@@ -1,5 +1,5 @@
 
-library(shinydashboard)
+library(shinydashboard); library(rCharts)
 
 
 #==================HEADER==================#
