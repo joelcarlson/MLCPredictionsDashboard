@@ -11,7 +11,11 @@ header <- dashboardHeader(title="MLC Prediction")
 sidebar <- dashboardSidebar(
   sidebarMenu(
     menuItem("Plan Upload and Info", tabName = "dashboard", icon = icon("upload")),
-    menuItem("Error Visualization", tabName = "errorviz",  icon=icon("bar-chart")),
+    menuItem("Error Visualization",  icon=icon("bar-chart"),
+             menuSubItem("Beam Aperture", tabName = "beamaperture"),
+             menuSubItem("Histograms", tabName = "errorviz")             
+    ),
+    
     menuItem("Predictive Models", icon = icon("magic"),
              menuSubItem("Pre-trained Model", tabName = "pretrainedmodel"),
              menuSubItem("Custom Model", tabName = "custommodel")
@@ -66,10 +70,26 @@ body <- dashboardBody(
               infoBoxOutput("delivereddosebox", width=6)
             )
             
+    ),
+    
+    
+    #---------------BEAM APERTURE VISUALIZATION------------#
+    tabItem(tabName = "beamaperture",
+            h3("Beam aperture errors."),
+            h6("In this visualization you can see how the positional errors alter the shape of the intended beam aperture.
+               Red areas indicate regions where the leaf was left too far towards the center of the MLC, grey areas
+               indicate regions where the leaf was left too far outside of the center of the MLC."),
+            fluidRow(
+              box(width=12,
+                  plotOutput("tab2_plot_beamaperture", height=400)
+              )
             ),
-    
-    
-    
+            fluidRow(
+              box(width=12,
+                  sliderInput("tab2_slider_cpselect", "Control Point:", 1, 178, 80)
+              )
+            )
+    ),
     #---------------ERROR VIZ TAB---------------#
     tabItem(tabName = "errorviz",
             

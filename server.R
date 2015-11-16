@@ -131,6 +131,47 @@ server <- function(input, output, session) {
   })
   
   
+  output$tab2_plot_beamaperture <- renderPlot({
+    error_data <- ErrorDF()
+    if (is.null(error_data)){
+      return(NULL)
+    } else {
+    
+      dat <- filter(select(error_data, Bank, MLCIndex, CP, Planned, Delivered), CP <= max(CP/2))
+      dat <- melt(dat, id.vars=c("Bank", "MLCIndex", "CP"))
+      dat$value <- as.numeric(dat$value)
+      dat$MLCIndex <- as.numeric(dat$MLCIndex)
+      dat$CP <- as.numeric(dat$CP)
+      datAdd <- dat
+      datAdd$MLCIndex <- datAdd$MLCIndex + 0.99999999999 
+      dat <- rbind(dat, datAdd)
+      if(nrow(dat) == 0){
+        return(NULL)
+      } 
+      ggplot() + 
+        geom_ribbon(data=filter(dat, Bank=="B", CP == input$tab2_slider_cpselect, variable=="Delivered"),
+                    aes(x=MLCIndex, ymin=-1000, ymax=value), fill="darkred") +
+        
+        geom_ribbon(data=filter(dat, Bank=="A", CP == input$tab2_slider_cpselect, variable=="Delivered"),
+                    aes(x=MLCIndex, ymin=value, ymax=1000), fill="darkred") +
+        
+        geom_ribbon(data=filter(dat, Bank=="B", CP == input$tab2_slider_cpselect, variable=="Planned"),
+                    aes(x=MLCIndex, ymin=-1000, ymax=value),alpha=0.9) +
+        
+        geom_ribbon(data=filter(dat, Bank=="A", CP == input$tab2_slider_cpselect, variable=="Planned"),
+                    aes(x=MLCIndex, ymin=value, ymax=1000), alpha=.9) + 
+        
+        theme(axis.line=element_blank(),axis.text.x=element_blank(),
+              axis.text.y=element_blank(),axis.ticks=element_blank(),
+              axis.title.x=element_blank(),
+              axis.title.y=element_blank(),legend.position="none",
+              panel.background=element_blank(),panel.border=element_blank(),panel.grid.major=element_blank(),
+              panel.grid.minor=element_blank(),plot.background=element_blank()) +
+        coord_cartesian(ylim = c(min(dat$value)-5, max(dat$value)+5))
+    }
+  })
+  
+  
   output$tab2_plot_errorhist <- renderPlot({
     
     error_data <- ErrorDF()
